@@ -42,6 +42,7 @@ if __name__ == '__main__':
     # app.run(host='0.0.0.0', port='8888')
 
     # 初始化 Flask-Script、Flask-Migrate 和为 Python shell 定义的上下文。
+    # 当交互式环境python manage.py shell,自动传入参数/变量: app, db, Role,User
     manager.add_command("shell", Shell(make_context=make_shell_context))
     manager.add_command("db", MigrateCommand)
 
