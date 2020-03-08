@@ -37,8 +37,20 @@ class RegisterationForm(FlaskForm):
         # field是email表单对象， field.data是email'表单里提交的数据信息.
         # select * from users where email='xxxx' limit 1;
         if User.query.filter_by(email=field.data).first():
-            raise ValidationError("邮箱地址%s已经注册!" %(field.data))
+            raise ValidationError("邮箱地址%s已经注册!" % (field.data))
+
     def validate_username(self, field):
         # field是username表单对象， field.data是username表单里提交的数据信息.
         if User.query.filter_by(username=field.data).first():
-            raise ValidationError("用户名%s已经注册!" %(field.data))
+            raise ValidationError("用户名%s已经注册!" % (field.data))
+
+
+class LoginForm(FlaskForm):
+    """用户登录表单"""
+    email = StringField('电子邮箱',
+                        validators=[
+                            DataRequired(),
+                            Length(1, 64),
+                            Email()])
+    password = PasswordField('密码', validators=[DataRequired()])
+    submit = SubmitField('登录')

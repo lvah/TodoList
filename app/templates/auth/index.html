@@ -1,0 +1,24 @@
+{% extends 'bootstrap/base.html' %}
+{% block title %} 首页 {% endblock %}
+{% block navbar %}
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">任务管理清单系统</a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">任务管理</a></li>
+                    {% if current_user.is_authenticated %}
+                        <li><a href="/logout">用户注销</a></li>
+                    {% else %}
+                        <li><a href="/login">用户登录</a></li>
+                    {% endif %}
+                    <li><a href="/register">用户注册</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <p style="color: red">{{ get_flashed_messages() }}</p>
+{% endblock %}
