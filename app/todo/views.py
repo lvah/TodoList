@@ -10,12 +10,19 @@ Description:
 # 2). 应用蓝图
 from app.todo import todo
 
+
+@todo.route('/')
+def index():
+    return 'todo index'
+
+
 # /todo/add/
 @todo.route('/add/')
 def add():
-    return  'todo add'
+    return 'todo add'
+
 
 # /todo/delete
 @todo.route('/delete/')
 def delete():
-    return  'todo delete'
+    return 'todo delete'

@@ -30,6 +30,10 @@ class DevelopmentConfig(Config):
    """
     # 启用了调试支持,服务器会在代码修改后自动重新载入,并在发生错误时提供一个相当有用的调试器。
     DEBUG = True
+    """
+    QQ邮箱:  MAIL_PORT=465 MAIL_USE_SSL=True
+    163邮箱: MAIL_PORT=25  MAIL_USE_SSL=False(默认不开启)
+    """
     MAIL_SERVER = 'smtp.qq.com'  # 邮件服务器
     MAIL_PORT = 465  # 邮件服务器的端口
     MAIL_USE_SSL = True

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<p>尊敬的用户:</p>
+你好, 你还没有确认邮箱账户, 请点击下面连接进行确认.
+<a href="{{ url_for('auth.resend_confirmation', _external=True ) }}">再次发送确认
+邮件</a>
+</body>
+</html>
