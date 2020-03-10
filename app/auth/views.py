@@ -14,6 +14,7 @@ from app.auth import auth
 from app.auth.forms import RegisterationForm, LoginForm
 from flask import render_template, flash, redirect, url_for, session
 
+from app.auth.send_mail import send_mail
 from app.models import User, Role
 from flask_login import current_user
 
@@ -49,6 +50,11 @@ def register():
         user.role = Role.query.filter_by(name="普通会员").first()
         db.session.add(user)
         flash("用户%s注册成功" % (user.username), category='success')
+        # 提交数据库之后才能赋予新用户 id 值,而确认令牌需要用到 id ,所以不能延后提交。
+        token = user.generate_confirmation_token()
+        send_mail(to=user.email, subject="请激活你的任务管理平台帐号",
+                  filename='auth/confirm', user=user, token=token)
+        flash("'平台验证消息已经发送到你的邮箱, 请确认后登录.", category='success')
         # return  redirect('/login')
         # url_for('auth.login')根据视图函数寻找对应的路由地址， /login
         return redirect(url_for('auth.login'))

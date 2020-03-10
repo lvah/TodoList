@@ -13,9 +13,11 @@ Description:
 login_manager回调函数的作用:
     注册回调函数， 当没有session_id时， 通过装饰器指定的函数来读取用户到sesion中， 达到前端可通过current_user获取当前用户的目的
 """
+from flask import current_app
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login_manager
 from flask_login import UserMixin
+from itsdangerous import TimedJSONWebSignatureSerializer
 
 # Flask中一个Model子类就是数据库中的一个表。默认表名'User'.lower() ===> user
 """
@@ -41,6 +43,9 @@ class User(UserMixin, db.Model):
     password_hash = db.Column(db.String(200), nullable=True)
     email = db.Column(db.String(50))
     phone = db.Column(db.String(20))
+    # db.Boolean是布尔类型， 值只能是True或者False。
+    confirmed = db.Column(db.Boolean, default=False)  # 账户是否已经确认
+
     # 外键关联
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
 
@@ -56,6 +61,29 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         # check_password_hash(hash, password) :密码散列值和用户输入的密码是
         return check_password_hash(self.password_hash, password)
+
+    def generate_confirmation_token(self, expire=3600):
+        """生成一个令牌,有效期默认为一小时。"""
+        # secret_key = "westos"
+        s = TimedJSONWebSignatureSerializer(current_app.config['SECRET_KEY'], expire)
+        return s.dumps({'confirm': self.id})
+
+    def confirm(self, token):
+        """
+        http://127.0.0.1:8000/auth/confirm/hdhewufdiheryiufhyruiiiiiiigyuhgh
+        :param token:
+        :return:
+        """
+        s = TimedJSONWebSignatureSerializer(current_app.config['SECRET_KEY'])
+        try:
+            data = s.loads(token)  # {'confirm': 1}
+        except Exception as e:
+            return False
+        else:
+            self.confirmed = True
+            db.session.add(self)
+            db.session.commit()
+            return True
 
     def __repr__(self):
         return "<User: %s>" % (self.username)
@@ -75,4 +103,4 @@ class Role(db.Model):
 # 后续用户登录和注销时详细讲解: 加载用户的回调函数;如果能找到用户,返回用户对象;否则返回 None 。
 @login_manager.user_loader
 def load_user(user_id):
-   return User.query.get(int(user_id))
+    return User.query.get(int(user_id))

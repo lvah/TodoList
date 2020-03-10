@@ -13,8 +13,11 @@ class Config:
     # flask-sqlchemy
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    FLASKY_MAIL_SUBJECT_PREFIX = '[TodoList]'
-    FLASKY_MAIL_SENDER = '976131979@qq.com'
+    MAIL_SERVER = 'smtp.qq.com'  # 邮件服务器
+    MAIL_PORT = 587  # 邮件服务器的端口
+    MAIL_USE_TLS = True
+    MAIL_USERNAME = '976131979@qq.com'  # 发送者邮箱账户
+    MAIL_PASSWORD = 'sdjuoeyoxjoubedb'  # 授权密码而不是登录密码
 
     @staticmethod
     def init_app(app):
@@ -32,11 +35,11 @@ class DevelopmentConfig(Config):
    """
     # 启用了调试支持,服务器会在代码修改后自动重新载入,并在发生错误时提供一个相当有用的调试器。
     DEBUG = True
-    MAIL_SERVER = 'smtp.qq.com'
-    MAIL_PORT = 587
-    MAIL_USE_TLS = True
-    MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or '976131979'
-    MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or '密码'
+    # MAIL_SERVER = 'smtp.qq.com'
+    # MAIL_PORT = 587
+    # MAIL_USE_TLS = True
+    # MAIL_USERNAME = os.environ.get('MAIL_USERNAME') or '976131979'
+    # MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or '密码'
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data-dev.sqlite')
 
 
@@ -56,9 +59,8 @@ class ProductionConfig(Config):
 
 
 config = {
-   'development': DevelopmentConfig,
-   'testing': TestingConfig,
-   'production': ProductionConfig,
-   'default': DevelopmentConfig
+    'development': DevelopmentConfig,
+    'testing': TestingConfig,
+    'production': ProductionConfig,
+    'default': DevelopmentConfig
 }
-
