@@ -52,7 +52,8 @@ def register():
         flash("用户%s注册成功" % (user.username), category='success')
         # 提交数据库之后才能赋予新用户 id 值,而确认令牌需要用到 id ,所以不能延后提交。
         token = user.generate_confirmation_token()
-        send_mail(to=user.email, subject="请激活你的任务管理平台帐号",
+        print(user.email, token)
+        send_mail(to=[user.email,], subject="请激活你的任务管理平台帐号",
                   filename='auth/confirm', user=user, token=token)
         flash("'平台验证消息已经发送到你的邮箱, 请确认后登录.", category='success')
         # return  redirect('/login')

@@ -20,10 +20,10 @@ def thread_task(app, mail, msg):
         except Exception as e:
             print(result)
             print(str(e))
-            return  False
+            return False
         else:
             print(result)
-            return  True
+            return True
 
 
 def send_mail(to, subject, filename, **kwargs):
@@ -41,6 +41,7 @@ def send_mail(to, subject, filename, **kwargs):
                   sender=app.config['MAIL_USERNAME'],
                   recipients=to
                   )
+
 
     # msg.body = 'westos'
     msg.html = render_template(filename + '.html', **kwargs)
