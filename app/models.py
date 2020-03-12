@@ -18,6 +18,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login_manager
 from flask_login import UserMixin
 from itsdangerous import TimedJSONWebSignatureSerializer
+from datetime import datetime
 
 # Flask中一个Model子类就是数据库中的一个表。默认表名'User'.lower() ===> user
 """
@@ -45,6 +46,17 @@ class User(UserMixin, db.Model):
     phone = db.Column(db.String(20))
     # db.Boolean是布尔类型， 值只能是True或者False。
     confirmed = db.Column(db.Boolean, default=False)  # 账户是否已经确认
+    # 新添加的用户资料
+    name = db.Column(db.String(64))
+    # 用户的真实姓名
+    location = db.Column(db.String(64))  # 所在地
+    about_me = db.Column(db.Text())  # 自我介绍
+    # 注册日期
+    # default 参数可以接受函数作为默认值,
+    # 所以每次生成默认值时,db.Column() 都会调用指定的函数。
+    create_time = db.Column(db.DateTime, default=datetime.utcnow)
+    # 最后访问日期
+    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
 
     # 外键关联
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
@@ -84,6 +96,11 @@ class User(UserMixin, db.Model):
             db.session.add(self)
             db.session.commit()
             return True
+
+    def ping(self):
+        """刷新用户的最后访问时间"""
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
 
     def __repr__(self):
         return "<User: %s>" % (self.username)

@@ -71,6 +71,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.verify_password(form.password.data):
             login_user(user)
+            user.ping()     # 更新用户最后依次登录的时间
             flash("用户%s登录成功" % (user.username), category='success')
             return redirect(url_for('todo.index'))
         else:
