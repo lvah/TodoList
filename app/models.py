@@ -25,6 +25,13 @@ from datetime import datetime
 user = User(username="westos")
 user.password = 'westos123'
 user.password
+
+
+关系的分析: 一对多关系中， 外键写在多的一端。
+1). Role: User = 1:N
+2). User:Todo: 1:N
+3). User:Category=1:N
+4). Category:Todo = 1:N
 """
 
 
@@ -60,6 +67,10 @@ class User(UserMixin, db.Model):
 
     # 外键关联
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    # 反向引用: 1). User添加属性todos   2). Todo添加属性user
+    todos = db.relationship('Todo', backref='user')
+    # 反向引用: 1). User添加属性categories   2). Category添加属性user
+    categories = db.relationship('Category', backref='user')
 
     @property
     def password(self):
@@ -115,6 +126,35 @@ class Role(db.Model):
 
     def __repr__(self):
         return "<Role: %s>" % (self.name)
+
+
+class Todo(db.Model):
+    __tablename__ = 'todos'
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    content = db.Column(db.String(100))  # 任务内容
+    status = db.Column(db.Boolean, default=False)  # 任务的状态
+    add_time = db.Column(db.DateTime, default=datetime.utcnow)  # 任务创建时间
+    # User:Todo: 1:N
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    # Category:Todo = 1:N
+    category_id = db.Column(db.Integer, db.ForeignKey('todos.id'))
+
+    def __repr__(self):
+        return "<Todo %s>" % (self.content[:6])
+
+
+class Category(db.Model):
+    __tablename__ = 'categories'
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(20), unique=True)
+    add_time = db.Column(db.DateTime, default=datetime.utcnow)  # 任务创建时间
+    # User:Category=1:N
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    # 反向引用
+    todos = db.relationship('Todo', backref='category')
+
+    def __repr__(self):
+        return "<Category %s>" % (self.name)
 
 
 # 后续用户登录和注销时详细讲解: 加载用户的回调函数;如果能找到用户,返回用户对象;否则返回 None 。
