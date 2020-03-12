@@ -1,0 +1,69 @@
+{% extends 'bootstrap/base.html' %}
+
+
+{% block title %}
+    任务清单列表
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10 col-lg-offset-1">
+                {% include 'flash.html' %}
+                <table class="table table-hover">
+                    <tr>
+                        <th>编号</th>
+                        <th>任务内容</th>
+                        <th>任务创建时间</th>
+                        <th>分类名称</th>
+                        <th>状态</th>
+                        <th>其他</th>
+                    </tr>
+                    {% for todo in todoObj.items %}
+                        <tr>
+                            <td>{{ todo.id }}</td>
+                            <td>{{ todo.content }}</td>
+                            <td>{{ todo.add_time }}</td>
+                            <td>{{ todo.category.name }}</td>
+                            <td>
+                                {% if todo.status %}
+                                    <a href="{{ url_for('todo.undo', id=todo.id) }}">已完成</a>
+                                {% else %}
+                                    <a href="{{ url_for('todo.done', id=todo.id) }}">未完成</a>
+                                {% endif %}
+
+                            </td>
+                            <td>
+
+                                <a href="{{ url_for('todo.edit', id=todo.id) }}">编辑</a>
+                                <a href="{{ url_for('todo.delete', id=todo.id) }}">删除</a>
+                            </td>
+                        </tr>
+
+                    {% endfor %}
+
+
+                </table>
+
+                {% if todoObj.has_prev %}
+                    <a href="{{ url_for('todo.list') }}?page={{ todoObj.prev_num }}">上一页</a>
+                {% endif %}
+                {% for i in todoObj.iter_pages() %}
+                    <a href="{{ url_for('todo.list') }}?page={{ i }}">
+
+                        {% if i %}
+                            {{ i }}
+
+                        {% else %}
+                            ...
+                        {% endif %}
+                    </a>
+                {% endfor %}
+                {% if todoObj.has_next %}
+                    <a href="{{ url_for('todo.list') }}?page={{ todoObj.next_num }}">下一页</a>
+                {% endif %}
+
+
+            </div>
+        </div>
+    </div>
+{% endblock %}

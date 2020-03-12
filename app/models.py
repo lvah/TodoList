@@ -137,7 +137,7 @@ class Todo(db.Model):
     # User:Todo: 1:N
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     # Category:Todo = 1:N
-    category_id = db.Column(db.Integer, db.ForeignKey('todos.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
 
     def __repr__(self):
         return "<Todo %s>" % (self.content[:6])
