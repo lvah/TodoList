@@ -21,16 +21,17 @@ from app.todo.forms import AddTodoForm, EditTodoForm
 @todo.route('/list/')
 @login_required
 def list():
+    form = AddTodoForm()
     page = int(request.args.get('page', 1))
     # 任务显示需要分页,每个用户只能查看自己的任务
     todoPageObj = Todo.query.filter_by(
         user_id=current_user.id).paginate(
         # 在config.py文件中有设置;
         page, per_page=current_app.config['PER_PAGE'])
-    return render_template('todo/list.html', todoObj=todoPageObj)
+    return render_template('todo/list.html', todoObj=todoPageObj, form=form)
 
 
-@todo.route('/add/', methods=['GET', 'POST'])
+@todo.route('/add/', methods=['POST'])
 @login_required
 def add():
     form = AddTodoForm()
@@ -46,8 +47,7 @@ def add():
                     )
         db.session.add(todo)
         flash('添加任务成功', category='success')
-        return redirect(url_for('todo.add'))
-    return render_template('todo/add.html', form=form)
+        return redirect(url_for('todo.list'))
 
 
 # 编辑任务
