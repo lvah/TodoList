@@ -1,0 +1,115 @@
+
+#index-img {
+    width: 100%;
+}
+
+.index-footer {
+    font-size: x-small;
+    color: #9F9F9F;
+}
+
+.navbar-default {
+    background-color: #189f92;
+    border-color: #098d80;
+}
+
+.navbar-default .navbar-brand {
+    color: #ecf1f1;
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+    color: #f7cdce;
+}
+
+.navbar-default .navbar-text {
+    color: #ecf1f1;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #ecf1f1;
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+    color: #f7cdce;
+}
+
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+    color: #f7cdce;
+    background-color: #098d80;
+}
+
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
+    color: #f7cdce;
+    background-color: #098d80;
+}
+
+.navbar-default .navbar-toggle {
+    border-color: #098d80;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: #098d80;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #ecf1f1;
+}
+
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+    border-color: #ecf1f1;
+}
+
+.navbar-default .navbar-link {
+    color: #ecf1f1;
+}
+
+.navbar-default .navbar-link:hover {
+    color: #f7cdce;
+}
+
+@media (max-width: 767px) {
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+        color: #ecf1f1;
+    }
+
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+        color: #f7cdce;
+    }
+
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a,
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover,
+    .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+        color: #f7cdce;
+        background-color: #098d80;
+    }
+}
+
+.btn-todo-add {
+    background-color: #098d80;
+}
+
+.btn-todo-add:hover {
+    background-color: #098d80;
+}
+
+#edit-btn {
+    color: #098d80;
+}
+
+#remove-btn {
+    color: #d43f3a;
+}
+
+.pager li a {
+    color: #098d80;
+}
+

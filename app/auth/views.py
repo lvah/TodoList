@@ -73,7 +73,7 @@ def login():
             login_user(user)
             user.ping()     # 更新用户最后依次登录的时间
             flash("用户%s登录成功" % (user.username), category='success')
-            return redirect(url_for('todo.index'))
+            return redirect(url_for('todo.list'))
         else:
             flash("用户%s登录失败" % (form.email.data), category='error')
             return redirect(url_for('auth.login'))
